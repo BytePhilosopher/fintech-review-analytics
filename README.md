@@ -167,6 +167,26 @@ Schema file: `schema/schema.sql`
 - NULL checks on key columns
 - Sentiment distribution per bank
 
+## Task 4: Insights & Recommendations
+
+### Generate outputs
+
+```bash
+python scripts/generate_visualizations.py
+python scripts/generate_report.py
+```
+
+**Deliverables:**
+
+- `reports/FINAL_REPORT.md` — publication-style insights, drivers, pain points, recommendations
+- `reports/figures/` — 5 labeled charts (sentiment, ratings, themes, keywords, trend)
+
+### KPIs covered
+
+- 2+ satisfaction drivers and 2+ pain points per bank (with review evidence)
+- Cross-bank comparison on sentiment, rating, and themes
+- 2+ prioritized product recommendations per bank
+
 ## License
 
 Educational use — 10 Academy Week 2 challenge.
