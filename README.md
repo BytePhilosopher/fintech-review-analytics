@@ -88,6 +88,8 @@ GitHub Actions workflow `.github/workflows/unittests.yml` installs dependencies 
 
 ## Task 2: Sentiment & Thematic Analysis
 
+**Python note:** Use **Python 3.11–3.13** with `pip install torch` for DistilBERT. On Python 3.14 (no torch wheels yet), the pipeline automatically falls back to VADER.
+
 ### Tool selection
 
 | Tool | Purpose |
