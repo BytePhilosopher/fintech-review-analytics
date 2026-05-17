@@ -54,6 +54,7 @@ def main() -> None:
     )
 
     print(f"\nSaved {len(analyzed)} analyzed reviews to {OUTPUT_CSV}")
+    print(f"Model used: {stats['tool_selection']['primary']}")
     print(f"Sentiment labeled: {stats['sentiment_labeled_pct']}%")
     print(f"VADER agreement (sample): {stats['vader_agreement_pct']}%")
     print("\nSentiment distribution:", stats["sentiment_distribution"])
