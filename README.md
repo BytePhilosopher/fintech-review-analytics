@@ -86,6 +86,85 @@ fintech-review-analytics/
 
 GitHub Actions workflow `.github/workflows/unittests.yml` installs dependencies and runs `pytest` on every push to `main`.
 
+## Task 2: Sentiment & Thematic Analysis
+
+### Tool selection
+
+| Tool | Purpose |
+|------|---------|
+| **DistilBERT SST-2** (`distilbert-base-uncased-finetuned-sst-2-english`) | Primary sentiment label + confidence |
+| **VADER** | Lexicon baseline; agreement % reported in stats |
+| **NLTK + TF-IDF** | Tokenization, lemmatization, per-bank keyword extraction |
+
+Neutral reviews are labeled when model confidence &lt; 0.55.
+
+### Pipeline
+
+```bash
+python scripts/analyze_reviews.py
+```
+
+**Outputs (gitignored):**
+
+- `data/processed/reviews_analyzed.csv` — `review_id`, `review_text`, `sentiment_label`, `sentiment_score`, `identified_theme`
+- `data/processed/reviews_enriched.csv` — full fields for database load
+- `data/processed/analysis_stats.json` — aggregates and theme summary
+
+**Themes (keyword-based grouping):** Account Access Issues, Transaction Performance, UI & Design, Customer Support, Feature Requests (+ General Feedback fallback). See `notebooks/task2_sentiment_themes.ipynb` for grouping logic.
+
+### Module layout
+
+- `src/text_pipeline.py` — tokenize, stopwords, lemmatize
+- `src/sentiment.py` — DistilBERT + VADER
+- `src/themes.py` — TF-IDF + theme assignment
+- `src/analysis.py` — orchestration
+
+## Task 3: PostgreSQL Storage
+
+### Setup
+
+1. Install PostgreSQL and create the database:
+
+```sql
+CREATE DATABASE bank_reviews;
+```
+
+2. Configure connection (environment variables or `.env`):
+
+```
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+POSTGRES_DB=bank_reviews
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=your_password
+```
+
+3. Apply schema and load data:
+
+```bash
+python scripts/analyze_reviews.py
+python scripts/load_to_postgres.py
+python scripts/verify_db.py
+```
+
+Schema file: `schema/schema.sql`
+
+### Tables
+
+| Table | Purpose |
+|-------|---------|
+| `banks` | `bank_id`, `bank_name`, `app_name` |
+| `reviews` | `review_id`, `bank_id` (FK), text, rating, date, sentiment, theme, source |
+
+### Verification queries
+
+`scripts/verify_db.py` runs:
+
+- Review count per bank
+- Average rating per bank
+- NULL checks on key columns
+- Sentiment distribution per bank
+
 ## License
 
 Educational use — 10 Academy Week 2 challenge.
