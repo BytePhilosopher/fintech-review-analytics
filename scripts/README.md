@@ -7,6 +7,8 @@
 | `analyze_reviews.py` | Sentiment + thematic analysis → `data/processed/reviews_analyzed.csv` |
 | `load_to_postgres.py` | Load enriched reviews into PostgreSQL |
 | `verify_db.py` | Run integrity verification SQL queries |
+| `generate_visualizations.py` | Create Task 4 charts → `reports/figures/` |
+| `generate_report.py` | Build final insights report → `reports/FINAL_REPORT.md` |
 
 Run from the project root:
 
